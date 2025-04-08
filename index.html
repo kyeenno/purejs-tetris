@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="game-container flex justify-center items-center h-screen">
+        <div>
+            <p class="font-semibold text-2xl">Score</p>
+            <div class="flex flex-col items-center border-2 p-2 mt-2 mr-8">
+                <span id="score">Score:</span>
+                <span id="level">Level:</span>
+                <span id="lines">Lines:</span>
+            </div>
+            <p class="font-semibold text-2xl mt-2">Controls</p>
+            <div class="flex flex-col border-2 p-2 mt-2 mr-8">
+                <div class="flex items-center w-full mb-2">
+                    <img src="https://img.icons8.com/ios-filled/50/FFFFFF/f1-key.png" alt="pause-icon" class="h-8"/>
+                    <img src="https://img.icons8.com/?size=100&id=17810&format=png&color=FFFFFF" alt="pause-icon" class="h-8"/>
+                    <figcaption>Pause</figcaption>
+                </div>
+                <div class="flex items-center w-full mb-2">
+                    <img src="https://img.icons8.com/ios-filled/50/FFFFFF/space-key.png" alt="pause-icon" class="w-8"/>
+                    <figcaption>Hard Drop</figcaption>                
+                </div>
+                <div class="flex items-center w-full mb-2">
+                    <img src="https://img.icons8.com/?size=100&id=7811&format=png&color=FFFFFF" alt="pause-icon" class="h-8"/>
+                    <figcaption>Move Left</figcaption>                
+                </div>
+                <div class="flex items-center w-full mb-2">
+                    <img src="https://img.icons8.com/?size=100&id=7789&format=png&color=FFFFFF" alt="pause-icon" class="h-8"/>
+                    <figcaption>Move Right</figcaption>                
+                </div>
+                <div class="flex items-center w-full mb-2">
+                    <img src="https://img.icons8.com/?size=100&id=7800&format=png&color=FFFFFF" alt="pause-icon" class="h-8"/>
+                    <figcaption>Move Down</figcaption>                
+                </div>
+                <div class="flex items-center w-full mb-2">
+                    <img src="https://img.icons8.com/?size=100&id=7801&format=png&color=FFFFFF" alt="pause-icon" class="h-8"/>
+                    <img src="https://img.icons8.com/ios-filled/50/FFFFFF/x-key.png" alt="pause-icon" class="h-8"/>
+                    <figcaption>Rotate Clockwise</figcaption>                
+                </div>
+                <div class="flex items-center w-full mb-2">
+                    <img src="https://img.icons8.com/?size=100&id=17804&format=png&color=FFFFFF" alt="pause-icon" class="h-8"/>
+                    <img src="https://img.icons8.com/ios-filled/50/FFFFFF/z-key.png" alt="pause-icon" class="h-8"/>
+                    <figcaption>Rotate Counter Clockwise</figcaption>                
+                </div>
+                <div class="flex items-center w-full mb-2">
+                    <img src="https://img.icons8.com/ios-filled/50/FFFFFF/c-key.png" alt="pause-icon" class="h-8"/>
+                    <figcaption>Hold</figcaption>
+                </div>
+            </div>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+    </div>
+    <script src="js/constants.js"></script>
+    <script src="js/tetromino.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
