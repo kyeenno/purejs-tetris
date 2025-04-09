@@ -107,6 +107,7 @@ class Game {
             this.renderer.drawHoldPiece(this.holdPiece);
         }
 
+        // Draw the next piece box
         this.renderer.drawNextBox();
         if (this.nextPiece) {
             this.renderer.drawNextPiece(this.nextPiece);
@@ -114,7 +115,7 @@ class Game {
         
         // Draw the ghost piece
         if (this.activePiece) {
-            const ghostY = this.getGhostPiecePosition();
+            const ghostY = this.ghostPiecePos();
             this.renderer.drawGhostPiece(this.activePiece, ghostY);
         }
         
@@ -134,6 +135,7 @@ class Game {
         }
     }
     
+    // Draw the piece the player is controlling
     drawActivePiece() {
         const shape = this.activePiece.getShape();
         const color = this.activePiece.color;
@@ -157,23 +159,24 @@ class Game {
         }
     }
     
-    getGhostPiecePosition() {
-        // Start from the current position
+    // Ghost piece position
+    ghostPiecePos() {
+        // Start from the current position & move down
         let ghostY = this.activePiece.y;
         
-        // Move down until collision
-        while (!this.checkCollision(this.activePiece.x, ghostY + 1, this.activePiece.getShape())) {
+        while (!this.collision(this.activePiece.x, ghostY + 1, this.activePiece.getShape())) {
             ghostY++;
         }
         
         return ghostY;
     }
     
+    // Generate new piece
     generateNewPiece() {
         // Make next piece the active piece
         this.activePiece = new Tetromino(this.nextPiece);
         
-        // Pull a new next piece
+        // Pull a new next piece (for piece preview)
         if (this.bag.length === 0) {
             this.fillBag();
         }
@@ -184,25 +187,26 @@ class Game {
         this.canHold = true;
         
         // Game over
-        if (this.checkCollision(this.activePiece.x, this.activePiece.y, this.activePiece.getShape())) {
+        if (this.collision(this.activePiece.x, this.activePiece.y, this.activePiece.getShape())) {
             this.gameOver = true;
             this.isRunning = false;
             console.log('Game Over!');
         }
     }
     
+    // 7-bag randomizing system
     fillBag() {
-        // 7-bag system: all 7 tetrominos in random order
+        // 7-bag system
         this.bag = ['I', 'O', 'T', 'S', 'Z', 'J', 'L'];
         
-        // Shuffle the bag
         for (let i = this.bag.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [this.bag[i], this.bag[j]] = [this.bag[j], this.bag[i]];
         }
     }
     
-    checkCollision(x = this.activePiece.x, y = this.activePiece.y, shape = this.activePiece.getShape()) {
+    // Check piece collision with other pieces/canvas bounds
+    collision(x = this.activePiece.x, y = this.activePiece.y, shape = this.activePiece.getShape()) {
         for (let row = 0; row < shape.length; row++) {
             for (let col = 0; col < shape[row].length; col++) {
                 if (shape[row][col]) {
@@ -226,10 +230,12 @@ class Game {
         return false;
     }
     
+    // Lock piece in place
     lockPiece() {
         const shape = this.activePiece.getShape();
         const color = this.activePiece.color;
         
+        // Iterate through the piece's matrix
         for (let y = 0; y < shape.length; y++) {
             for (let x = 0; x < shape[y].length; x++) {
                 if (shape[y][x]) {
@@ -251,6 +257,7 @@ class Game {
         this.generateNewPiece();
     }
 
+    // Update score based on scoring system
     updateScore(countCleared) {
         let points = 0;
 
@@ -275,6 +282,7 @@ class Game {
         this.displayScore();
     }
 
+    // Update level based on lines cleared
     updateLevel() {
         const newLvl = Math.floor(this.lines / 10) + 1;
         if (newLvl > this.level) {
@@ -285,6 +293,7 @@ class Game {
         this.displayScore();
     }
     
+    // Count and update lines cleared
     checkLines() {
         // Cleared line counter
         let countCleared = 0;
@@ -304,6 +313,7 @@ class Game {
         }
     }
     
+    // Move piece functionality
     movePiece(direction) {
         // Store original position
         const originalX = this.activePiece.x;
@@ -313,7 +323,7 @@ class Game {
         this.activePiece.move(direction);
         
         // If the move causes a collision, revert it
-        if (this.checkCollision()) {
+        if (this.collision()) {
             this.activePiece.x = originalX;
             this.activePiece.y = originalY;
             
@@ -328,6 +338,7 @@ class Game {
         return true;
     }
     
+    // Rotate piece functionality
     rotatePiece(direction) {
         // Store original rotation
         const originalRotation = this.activePiece.rotation;
@@ -340,7 +351,7 @@ class Game {
         }
         
         // If the rotation causes a collision, revert it
-        if (this.checkCollision()) {
+        if (this.collision()) {
             this.activePiece.rotation = originalRotation;
             return false;
         }
@@ -348,7 +359,8 @@ class Game {
         return true;
     }
     
-    holdCurrentPiece() {
+    // Hold piece functionality
+    holdCurrPiece() {
         // Can only hold once per piece
         if (!this.canHold) return;
         
@@ -369,6 +381,7 @@ class Game {
         this.canHold = false;
     }
     
+    // Setup controls
     setupControls() {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' || event.key === 'F1') {
@@ -406,7 +419,7 @@ class Game {
                 case 'c':
                 case 'C':
                 case 'Shift':
-                    this.holdCurrentPiece();
+                    this.holdCurrPiece();
                     break;
                 case ' ':
                     this.hardDrop();
@@ -415,14 +428,13 @@ class Game {
         });
     }
     
+    // Hard drop functionality
     hardDrop() {
-        // Move the piece down until it collides
-        while (this.movePiece('down')) {
-            // Continue moving down
-        }
-        // The piece is now locked by the movePiece method
+        // The piece moves down until a collision happens
+        while (this.movePiece('down')) {}
     }
     
+    // Pausing functionality
     togglePause() {
         if (this.isRunning) {
             this.pause();
@@ -435,6 +447,7 @@ class Game {
         this.isRunning = false;
     }
     
+    // Resume functionality
     resume() {
         if (!this.gameOver) {
             this.isRunning = true;
@@ -443,6 +456,7 @@ class Game {
         }
     }
     
+    // Reset properties
     reset() {
         this.board = this.createBoard();
         this.gameOver = false;
@@ -462,6 +476,7 @@ class Game {
         this.resume();
     }
 
+    // Display & update HTML score elements
     displayScore() {
         document.getElementById('score').textContent = `Score: ${this.score}`;
         document.getElementById('level').textContent = `Level: ${this.level}`;

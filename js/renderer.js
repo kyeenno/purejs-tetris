@@ -39,6 +39,7 @@ class Renderer {
         }
     }
 
+    // Draw board grid
     drawGrid() {
         this.ctx.strokeStyle = '#fff';
         this.ctx.lineWidth = 0.5;
@@ -69,6 +70,7 @@ class Renderer {
         this.ctx.strokeRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
     }
     
+    // Draw Ghost piece
     drawGhostPiece(piece, ghostY) {
         const shape = piece.getShape();
         
@@ -93,7 +95,8 @@ class Renderer {
             }
         }
     }
-    
+
+    // Draw Hold Box
     drawHoldBox() {
         const boxWidth = 120;
         const boxHeight = 120;
@@ -122,6 +125,7 @@ class Renderer {
         this.ctx.fillText('Hold', boxX + boxWidth / 2, boxY - 15);
     }
     
+    // Draw Hold piece in the Hold box
     drawHoldPiece(pieceType) {
         if (!pieceType) return;
         
@@ -171,6 +175,7 @@ class Renderer {
         }
     }
 
+    // Draw pause UI
     drawPause() {
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -191,7 +196,7 @@ class Renderer {
         this.ctx.fillText('Press Enter to restart', this.canvas.width / 2, this.canvas.height / 2 + 110);
     }
 
-    // Next piece box
+    // Draw next piece box
     drawNextBox() {
         const boxWidth = 120;
         const boxHeight = 120;
@@ -222,6 +227,7 @@ class Renderer {
         this.ctx.fillText('Next Piece', boxX + boxWidth / 2, boxY - 15);
     }
 
+    // Draw next piece in the next piece box
     drawNextPiece(pieceType) {
         if (!pieceType) return;
         
@@ -274,6 +280,7 @@ class Renderer {
         }
     }
 
+    // Draw game over UI
     drawGameOver(score, level, lines) {
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
