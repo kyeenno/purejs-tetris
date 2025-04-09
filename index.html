@@ -9,6 +9,14 @@
 </head>
 <body>
     <div class="game-container flex justify-center items-center h-screen">
+        <div id="startscreen" class="text-center z-100 flex flex-col justify-center items-center absolute top-0 left-0 right-0 bottom-0 bg-black">
+            <h1 class="text-5xl font-bold text-cyan-400 mb-8">TETRIS</h1>
+            <p class="text-lg mb-2">Created by Valerija Kovalova</p>
+            <p class="text-md mb-8">Tetris © 1985~2025 Tetris Holding.<br>Tetris logos, Tetris theme song and Tetriminos are trademarks of Tetris Holding. The Tetris trade dress is owned by Tetris Holding. Licensed to The Tetris Company.<br>Tetris Game Design by Alexey Pajitnov. Tetris Logo Design by Roger Dean. All Rights Reserved.</p>
+            <button id="startbtn" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-150 ease-in-out">
+              Start Game
+            </button>
+        </div>
         <div>
             <p class="font-semibold text-2xl">Score</p>
             <div class="flex flex-col items-center border-2 p-2 mt-2 mr-8">
@@ -23,6 +31,11 @@
                     <img src="https://img.icons8.com/?size=100&id=17810&format=png&color=FFFFFF" alt="pause-icon" class="h-8"/>
                     <figcaption>Pause</figcaption>
                 </div>
+                <div class="flex items-center w-full mb-2">
+                    <img src="https://img.icons8.com/?size=100&id=58036&format=png&color=FFFFFF" alt="pause-icon" class="h-10"/>
+                    <figcaption>Restart Game</figcaption>
+                </div>
+                <br>
                 <div class="flex items-center w-full mb-2">
                     <img src="https://img.icons8.com/ios-filled/50/FFFFFF/space-key.png" alt="pause-icon" class="w-8"/>
                     <figcaption>Hard Drop</figcaption>                
@@ -55,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <canvas id="gameCanvas"></canvas>
+        <canvas id="game-canvas"></canvas>
     </div>
     <script src="js/constants.js"></script>
     <script src="js/tetromino.js"></script>

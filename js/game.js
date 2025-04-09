@@ -1,10 +1,11 @@
 class Game {
     constructor() {
-        this.canvas = document.getElementById('gameCanvas');
+        this.canvas = document.getElementById('game-canvas');
         this.renderer = new Renderer(this.canvas);
         this.board = this.createBoard();
         
         // Game state
+        this.isStartScreen = true;
         this.isRunning = false;
         this.gameOver = false;
         this.lastTime = 0;
@@ -27,6 +28,7 @@ class Game {
         // Set up keyboard controls
         this.setupControls();
         
+        // Initialize the game
         this.init();
     }
 
@@ -448,7 +450,15 @@ class Game {
         this.bag = [];
         this.holdPiece = null;
         this.canHold = true;
+
+        this.score = 0;
+        this.level = 1;
+        this.lines = 0;
+        this.displayScore();
+
         this.generateNewPiece();
+        this.isRunning = true;
+        this.lastTime = performance.now();
         this.resume();
     }
 
@@ -459,7 +469,19 @@ class Game {
     }
 }
 
-// Start the game when the page loads
-window.addEventListener('load', () => {
-    const game = new Game();
+// On DOM load
+document.addEventListener('DOMContentLoaded', function() {
+    const startScreen = document.getElementById('startscreen');
+    const startBtn = document.getElementById('startbtn');
+    const canvas = document.getElementById('game-canvas');
+
+    canvas.classList.add('hidden');
+
+    startBtn.addEventListener('click', function() {
+        startScreen.classList.add('hidden');
+        canvas.classList.remove('hidden');
+
+        const game = new Game();
+        game.init();
+    });
 });
