@@ -17,12 +17,8 @@ const COLORS = {
     ghost: '#1a1a1a', // Dark gray
 };
 
-// Add this to your existing constants.js file
-
 // Wall kick data for J, L, S, T, Z tetrominoes
 const WALL_KICK_JLSTZ = {
-    // Format: [initialRotation][newRotation] = [possible positions to try]
-    // Each position is [x offset, y offset]
     "0>>1": [[0, 0], [-1, 0], [-1, -1], [0, 2], [-1, 2]],
     "1>>0": [[0, 0], [1, 0], [1, 1], [0, -2], [1, -2]],
     "1>>2": [[0, 0], [1, 0], [1, 1], [0, -2], [1, -2]],
@@ -69,6 +65,3 @@ function getWallKickData(pieceType, initialRotation, newRotation) {
         return WALL_KICK_JLSTZ[key]; // For J, L, S, T, Z pieces
     }
 }
-
-// Make sure your TETROMINOS constant has all 4 rotation states for each piece
-// For example, the I piece should have shapes for 0°, 90°, 180°, and 270°
